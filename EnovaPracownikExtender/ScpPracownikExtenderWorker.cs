@@ -71,21 +71,33 @@ namespace EnovaPracownikExtender
                         using (ITransaction tran = session.Logout(true))
                         {
                             Pracownik p = (Pracownik)session[pracownik];
-                            e = new EnovaPracownikExtender.ScpPracownikExtender()
-                            {
-                                Host = p,
-                            };
-                           session.AddRow(e);
 
+                            if (e == null)
+                            {
+                                e = new EnovaPracownikExtender.ScpPracownikExtender()
+                                {
+                                    Host = p,
+                                };
+                            
+                            }
+                            else
+                            {
+                                e = (ScpPracownikExtender)session[e];
+                            }
+                           
+                            e.NumerButa = value;
+                            session.AddRow(e);
+                            tran.Commit();
 
                         }
+                        session.Save();
                     }
                             
                 }
 
 
-                Ustaw();
-                e.NumerButa = value;
+                
+                
 
 
             }
