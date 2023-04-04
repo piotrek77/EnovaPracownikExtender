@@ -17,7 +17,7 @@ using Soneta.Business;
 using Soneta.Kadry;
 using EnovaPracownikExtender;
 
-[assembly: ModuleType("ScpPracownikExtender", typeof(EnovaPracownikExtender.ScpPracownikExtenderModule), 4, "ScpPracownikExtender", 1, VersionNumber=1)]
+[assembly: ModuleType("ScpPracownikExtender", typeof(EnovaPracownikExtender.ScpPracownikExtenderModule), 4, "ScpPracownikExtender", 1, VersionNumber=2)]
 
 namespace EnovaPracownikExtender {
 
@@ -61,6 +61,11 @@ namespace EnovaPracownikExtender {
 			KeyFields = new[] {"Host"},
 		};
 
+		private static Soneta.Business.App.KeyInfo keyInfoScpPracownikExtenderWgNumerButa = new Soneta.Business.App.KeyInfo(ScpPracExtTableTableInfo, table => new ScpPracownikExtenderTable.WgNumerButaKey(table)) {
+			Name = "WgNumerButa",
+			KeyFields = new[] {"NumerButa", "ID"},
+		};
+
 		/// <summary>
 		/// Klasa implementująca standardową obsługę tabeli obiektów ScpPracownikExtender.
 		/// Dziedzicząca klasa <see cref="ScpPracExtTable"/> zawiera kod użytkownika
@@ -87,6 +92,20 @@ namespace EnovaPracownikExtender {
 			}
 
 			public HostRelation WgHost => (HostRelation)Session.Keys[keyInfoScpPracownikExtenderHost];
+
+			public partial class WgNumerButaKey : Key<ScpPracownikExtender> {
+				internal WgNumerButaKey(Table table) : base(table) {
+				}
+
+				protected override object[] GetData(Row row, Record rec) => new object[] {
+					((ScpPracownikExtenderRecord)rec).NumerButa,
+					row.ID
+				};
+
+				public SubTable<ScpPracownikExtender> this[int numerbuta] => new SubTable<ScpPracownikExtender>(this, numerbuta);
+			}
+
+			public WgNumerButaKey WgNumerButa => (WgNumerButaKey)Session.Keys[keyInfoScpPracownikExtenderWgNumerButa];
 
 
 			/// <summary>
@@ -170,6 +189,9 @@ namespace EnovaPracownikExtender {
 					ScpPracownikExtenderSchema.NumerButaBeforeEdit?.Invoke((ScpPracownikExtender)this, ref value);
 					GetEdit(record==null, false);
 					record.NumerButa = value;
+					if (State!=RowState.Detached) {
+						ResyncSet(keyInfoScpPracownikExtenderWgNumerButa);
+					}
 					ScpPracownikExtenderSchema.NumerButaAfterEdit?.Invoke((ScpPracownikExtender)this);
 				}
 			}

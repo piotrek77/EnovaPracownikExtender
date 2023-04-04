@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <!-- Zawiera informację nagłówkową pliku XML oraz informację o użytym kodowaniu znaków. -->
 <module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.enova.pl/schema/business_struct.xsd" xsi:schemaLocation="http://www.enova.pl/schema/ http://www.enova.pl/schema/business_struct.xsd"
- name="ScpPracownikExtender" namespace="EnovaPracownikExtender" versionName="ScpPracownikExtender" versionNumber="1">
+ name="ScpPracownikExtender" namespace="EnovaPracownikExtender" versionName="ScpPracownikExtender" versionNumber="2">
   <!-- 
   Główny element deklarujący nagłówek modułu. 
   
@@ -36,8 +36,9 @@
 			delete="cascade"
 			relright="true">
 		</col>
-
-	    
+		<key name="WgNumerButa">
+			<keycol name="NumerButa"></keycol>
+		</key>
 		<col name="NumerButa" type="int"/>
 		
 
